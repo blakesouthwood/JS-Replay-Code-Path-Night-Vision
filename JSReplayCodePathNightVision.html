@@ -11,117 +11,138 @@
 
 
 <body>
-  JS Replay Code Path Night Vision<br>
-The purpose of JS Replay Code Path (Night Vision) is to see what the machine sees in
-terms of variables values and what the logic told it to do. Trace of functions and
-the flow of control that the computer took running the code. This will allow
-stepping through each function and knowing the exact path that the computer took
-to discover where the logic is wrong. The short description is this tool should
-help find logic bugs faster by visually steppping through code through a map
-view diagram top down to better understand wherethe code is going wrong to save
- vast precious time.
+<font face = "menlo">
+  JS Replay Code Path Night Vision<br><br>
+  I dislike fishing for logic bugs and binary searches and commenting out code<br>
+  is too time consuming. I decided to let the computer help me find out where<br>
+  the flow of control logic and boolean logic are going wrong.<br><br>
+  This will be a .js file when completed and be open source.<br><br>
+  The main reason for this tool is to write working code faster, must faster.<br>
+  by reducing debugging time by pinpointing where the program is doing<br>
+  something wrong (that we as humans can see but the computer isn't aware of it)<br>
+  and thereby we know where to focus our concentration on the bad logic, and most<br>
+  especially to *instantly* see (and know) what functions fired and which didn't.<br><br>
 
- I will build this over the next few months.
+  The point of creating this JS Debugging Tool is to save debugging hours of <br>
+  time per day by learning the truth of what the code logic is really doing <br>
+  as opposed to not meshing with what we thought(or assumed) that the code <br>
+  is [probably] doing. [what we hope it should have done]<br><br>
+  Essentially I wanted to lift the veil, clear the fog, and know where the program<br>
+  logic is going wrong *visually* and *instantly* by seeing the flow path while<br>
+  at the same time being able to *instantly* see the actual path the code ran.<br><br>
+The purpose of JS Replay Code Path (Night Vision) is to see what the machine sees in<br>
+terms of variables values and what the logic told it to do. Trace of functions and<br>
+the flow of control that the computer took running the code. This will allow<br>
+stepping through each function and knowing the exact path that the computer took<br>
+to discover where the logic is wrong. The short description is this tool should<br>
+help find logic bugs faster by visually steppping through code through a map<br>
+view diagram top down to better understand where the code is going wrong to save<br>
+ vast precious time.<br>
+<br>
+ I will build this over the next few months.<br>
+<br>
+The main premise is a plumbing analogy of pipes in someone's house and seeing<br>
+what the course flow of control path through the program that the code executed<br>
+to verify with empirical evidence what the code actually did.<br>
+<br>
+ I dreamed up this idea a year ago and just recently figured out how to make it<br>
+ work.<br>
+<br>
+Another benefit will be Unit Tester to get info on a function under development<br>
+to step through what the code did and see the inputs and outputs based on<br>
+what actually happened.<br>
+<br>
+I recently got overly annoyed by using alerts and found console.log too disorganized<br>
+to see the truth of what the code was doing. I have visualized a top down flow chart<br>
+of each function in terms of fluid dynamics and I want to see the course that the<br>
+code is executing so I can discover logic bugs faster and make sure that the<br>
+necessary functions are firing(being called) and so I will know what the code<br>
+actually did - so that I can see the truth and pinpoint where the code (boolean logic)<br>
+is wrong. The machine only does what it's told to do (in the code) and to error<br>
+is human but since bugs are a given I wanted to be able to find out what the code<br>
+is doing to learn faster if the code is obeying what the design specifies it should do.<br>
+<br>
+At the same time going through code constantly switching back and forth<br>
+in one's mind between English and JavaScript can get taxing so in Replay mode<br>
+the literate programming viewpoint (which the user inputs) will help follow<br>
+what is supposed to happen and what the code is supposed to be doing. And even<br>
+more importantly the pseudocode (typed in by the user) is necessary to see<br>
+next to each function so that the human can spot the logic bug and compare in<br>
+their mind the "design logic" in pseueocode with the source code in the function.<br>
+<br>
+Again the literate description what the code is supposed to do explained to another<br>
+human and the pseudocode are completley optional and the programmer will write<br>
+it in (if they so choose) and then this becomes a more effective tool in terms<br>
+of documentation which Brooks always preached because code is so hard to decypher.<br>
+Especially someone else's uncommented code.<br>
+<br>
+I decided to design and build this application (under development) so that I<br>
+can debug faster by discovering what the code actually did rather than what<br>
+I think it did when it ran.<br>
+<br>
+This applicaton will gather the data from each pass of running through a JS program<br>
+and then in Replay mode using this information it will show a map of the flow of<br>
+control that actually happened with a trace of each function with inputs and<br>
+outputs to see what the machine saw. It will also show all assertions.<br>
+<br><br>
 
-The main premise is a plumbing analogy of pipes in someone's house and seeing
-what the course flow of control path through the program that the code executed
-to verify with empirical evidence what the code actually did.
+Going top down through the flow of control based on what actually<br>
+happened at each function is called when the code was running will help<br>
+understand any wrong turns. The other feature that I will add is the logic view.<br>
+What is supposed to happen at a certain point and what actually happened.<br>
+<br>
+Most importantly this debugging tool will provide a view of<br>
+exactly what the machine sees and if the code is doing what it's supposed to do.<br>
 
- I dreamed up this idea a year ago and just recently figured out how to make it
- work.
-
-Another benefit will be Unit Tester to get info on a function under development
-to step through what the code did and see the inputs and outputs based on
-what actually happened.
-
-I recently got overly annoyed by using alerts and found console.log too disorganized
-to see the truth of what the code was doing. I have visualized a top down flow chart
-of each function in terms of fluid dynamics and I want to see the course that the
-code is executing so I can discover logic bugs faster and make sure that the
-necessary functions are firing(being called) and so I will know what the code
-actually did - so that I can see the truth and pinpoint where the code (boolean logic)
-is wrong. The machine only does what it's told to do (in the code) and to error
-is human but since bugs are a given I wanted to be able to find out what the code
-is doing to learn faster if the code is obeying what the design specifies it should do.
-
-At the same time going through code constantly switching back and forth
-in one's mind between English and JavaScript can get taxing so in Replay mode
-the literate programming viewpoint (which the user inputs) will help follow
-what is supposed to happen and what the code is supposed to be doing. And even
-more importantly the pseudocode (typed in by the user) is necessary to see
-next to each function so that the human can spot the logic bug and compare in
-their mind the "design logic" in pseueocode with the source code in the function.
-
-Again the literate description what the code is supposed to do explained to another
-human and the pseudocode are completley optional and the programmer will write
-it in (if they so choose) and then this becomes a more effective tool in terms
-of documentation which Brooks always preached because code is so hard to decypher.
-Especially someone else's uncommented code.
-
-I decided to design and build this application (under development) so that I
-can debug faster by discovering what the code actually did rather than what
-I think it did when it ran.
-
-This applicaton will gather the data from each pass of running through a JS program
-and then in Replay mode using this information it will show a map of the flow of
-control that actually happened with a trace of each function with inputs and
-outputs to see what the machine saw. It will also show all assertions.
-
-
-Going top down through the flow of control based on what actually
-happened at each function is called when the code was running will help
-understand any wrong turns. The other feature that I will add is the logic view.
-What is supposed to happen at a certain point and what actually happened.
-
-Most importantly this debugging tool will provide a view of
-exactly what the machine sees and if the code is doing what it's supposed to do.
-
-
-Seeing logic calculations and variable values and
-the results of conditionals should provide a window inside
-the working program - after it has run to gain crucial information
-regarding where things go bad or rather where the design needs fixing.
-
-Debugging is figuring out what the code actually did
-as opposed to doing what it was designed to do.
-
-I came with an idea a year ago that I figured out
-how to impliment recently.
-
-There will be an interactive flow of control map
-on the web page and after a program runs it will
-visually show the course path that the code took
-and the order of functions and inputs and outputs
-and the values of the assertions.
-
-I got sick and tired of using alerts and the console.log()
-doesn't do justice to what information I need from
-my code when it's running.
-
-I came up with the idea of Slow Motion Replay
-(rather than stopping at break points) so that
-I can control the flow through the information gleaned
-from the running of a JS program.
-
-By knowing the path that the code took for certain inputs
-and seeing the functions called and seeing the
-inputs and outputs for each function it will be much
-easier to pinpoint where the bugs are.
-
-At the same time rather than seeing the code what
-will be shown is the litereate level programming
-description and What is supposed to happen
-and how something works.
-
-The user will click to determine the speed that
-they traverse through the program reviewing what
-happened at each point as they follow the flow of
-control through the boolean logic and what happened
-inside of each function.
-
+<br><br>
+Seeing logic calculations and variable values and<br>
+the results of conditionals should provide a window inside<br>
+the working program - after it has run to gain crucial information<br>
+regarding where things go bad or rather where the design needs fixing.<br>
+<br>
+Debugging is figuring out what the code actually did<br>
+as opposed to doing what it was designed to do.<br>
+<br>
+My truthism is first look at the designed logic and then look at what the <br>
+code did (progrmamed boolean logic)(to see if the two logics agree).<br>
+<br>
+I came with an idea a year ago that I figured out<br>
+how to impliment recently.<br>
+<br>
+There will be an interactive flow of control map<br>
+on the web page and after a program runs it will<br>
+visually show the course path that the code took<br>
+and the order of functions and inputs and outputs<br>
+and the values of the assertions.<br>
+<br>
+I got sick and tired of using alerts and the console.log()<br>
+doesn't do justice to what information I need from<br>
+my code when it's running.<br>
+<br>
+I came up with the idea of Slow Motion Replay<br>
+(rather than stopping at break points) so that<br>
+I can control the flow through the information gleaned<br>
+from the running of a JS program.<br>
+<br>
+By knowing the path that the code took for certain inputs<br>
+and seeing the functions called and seeing the<br>
+inputs and outputs for each function it will be much<br>
+easier to pinpoint where the bugs are.<br>
+<br>
+At the same time rather than seeing the code what<br>
+will be shown is the litereate level programming<br>
+description and What is supposed to happen<br>
+and how something works.<br>
+<br>
+The user will click to determine the speed that<br>
+they traverse through the program reviewing what<br>
+happened at each point as they follow the flow of<br>
+control through the boolean logic and what happened<br>
+inside of each function.<br>
+<br>
 Blake Southwood
-</select>
-</thead>
-</map>
+</font>
+</code>
+
 </body>
 </html>
