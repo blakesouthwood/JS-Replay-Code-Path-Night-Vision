@@ -17,7 +17,7 @@
   is too time consuming. I decided to let the computer help me find out where<br>
   the flow of control logic and boolean logic are going wrong.<br><br>
   This will be a .js file when completed and be open source.<br><br>
-  The main reason for this tool is to write working code faster, must faster.<br>
+  The main reason for this tool is to write working code faster, must faster,<br>
   by reducing debugging time by pinpointing where the program is doing<br>
   something wrong (that we as humans can see but the computer isn't aware of it)<br>
   and thereby we know where to focus our concentration on the bad logic, and most<br>
@@ -35,7 +35,7 @@ terms of variables values and what the logic told it to do. Trace of functions a
 the flow of control that the computer took running the code. This will allow<br>
 stepping through each function and knowing the exact path that the computer took<br>
 to discover where the logic is wrong. The short description is this tool should<br>
-help find logic bugs faster by visually steppping through code through a map<br>
+help find logic bugs faster by visually stepping through code through a map<br>
 view diagram top down to better understand where the code is going wrong to save<br>
  vast precious time.<br>
 <br>
@@ -73,7 +73,7 @@ their mind the "design logic" in pseueocode with the source code in the function
 Again the literate description what the code is supposed to do explained to another<br>
 human and the pseudocode are completley optional and the programmer will write<br>
 it in (if they so choose) and then this becomes a more effective tool in terms<br>
-of documentation which Brooks always preached because code is so hard to decypher.<br>
+of documentation which Brooks always preached because code is so hard to decypher -<br>
 Especially someone else's uncommented code.<br>
 <br>
 I decided to design and build this application (under development) so that I<br>
@@ -106,14 +106,21 @@ as opposed to doing what it was designed to do.<br>
 My truthism is first look at the designed logic and then look at what the <br>
 code did (progrmamed boolean logic)(to see if the two logics agree).<br>
 <br>
-I came with an idea a year ago that I figured out<br>
-how to impliment recently.<br>
+I came up with this idea a year ago walking through a forest in Oregon<br>
+and I figured out how to impliment it recently.<br>
 <br>
 There will be an interactive flow of control map<br>
 on the web page and after a program runs it will<br>
 visually show the course path that the code took<br>
 and the order of functions and inputs and outputs<br>
 and the values of the assertions.<br>
+
+The programmer will be able step through the Replay View<br>
+step by step (with a click) (this is after the code ran; not during). So this<br>
+a residue shadow of information of what actually happened.<br>
+This is so it's possible pause anytime. Becuase in reality <br>
+while using Replay mode the user is just traversing through<br>
+the information produced from the trace path and var values<br>
 <br>
 I got sick and tired of using alerts and the console.log()<br>
 doesn't do justice to what information I need from<br>
