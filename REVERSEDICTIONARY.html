@@ -1,0 +1,1866 @@
+<!--
+ this was my first attempt at a visual debugger
+ and I learned a great deal what more is needed from this.
+ But I will salvage the code from this for version 2 for Night Vision
+this was play code figuring out how to do new things which gave
+me more ideas after fermitation on what is possible and what's
+still needed. This code was experimental from 2017.
+
+type in snooy database click search.
+type in but click search.
+what I learned right off the bat is that each function name needs
+a description when I click on it to describe simply what it does and whynot
+
+Find a word that means this:
+this will be version 3.0 of the Reverse Dictionary.
+and it will take in more than one word.
+
+So matching will have to use combined ifs using and or not
+so the words entered will have to be packed into an array
+and compared one by one.
+
+
+
+remember to have
+tracetable called after each
+new function that is called so if I stop
+in the debugger it shows the tracetable up to
+that point.
+Monday, July 17, 2017
+
+
+
+// I need to know exactly each function called (the trace)
+// when I click on teh word list filter
+// grabfirstletter  and possibly are called.
+
+
+
+
+current date and time next to trace table
+css
+body {
+    font-size:16px;
+}
+//html
+Current Date/Time:<div id="date-time"></div>
+
+//js
+
+function updatingClock(selector, type) {
+    function currentDate() {
+        var currentDate = new Date;
+        var Day = currentDate.getDate();
+        if (Day < 10) {
+            Day = '0' + Day;
+        } //end if
+        var Month = currentDate.getMonth() + 1;
+        if (Month < 10) {
+            Month = '0' + Month;
+        } //end if
+        //I just added this if to see the month name
+        if(Month == 7){
+        Month = "July";
+        }
+
+        var Year = currentDate.getFullYear();
+        var fullDate = Month + '/' + Day + '/' + Year;
+        return fullDate;
+    } //end current date function
+
+    function currentTime() {
+        var currentTime = new Date;
+        var Minutes = currentTime.getMinutes();
+        if (Minutes < 10) {
+            Minutes = '0' + Minutes;
+        }
+        var Hour = currentTime.getHours();
+        if (Hour > 12) {
+            Hour -= 12;
+        } //end if
+        var Time = Hour + ':' + Minutes;
+        if (currentTime.getHours() <= 12) {
+            Time += ' AM';
+        } //end if
+        if (currentTime.getHours() > 12) {
+            Time += ' PM';
+        } //end if
+        return Time;
+    } // end current time function
+
+
+    function updateOutput() {
+        var output;
+        if (type == 'time') {
+            output = currentTime();
+            if ($(selector).text() != output) {
+                $(selector).text(output);
+            } //end if
+        } //end if
+        if (type == 'date') {
+            output = currentDate();
+            if ($(selector).text() != output) {
+                $(selector).text(output);
+            } //end if
+        } //end if
+        if (type == 'both') {
+            output = currentDate() + ' at ' + currentTime();
+            if ($(selector).text() != output) {
+                $(selector).text(output);
+            } //end if
+        } //end if
+    }//end update output function
+    updateOutput();
+    window.setInterval(function() {
+        updateOutput();
+    }, 1000); //run update every 1 second
+} // end updating clock function
+updatingClock('#date-time', 'both');
+
+
+
+
+
+
+
+
+
+
+//check box with code html and js
+// for turning trace on and off flag
+// so no output and turn on on the fly
+// and just have trace func
+// called in each function
+// but in the trace func itself
+// nothing happens with flag true or false
+// based on the checkbox above the iframe for trace
+
+
+Checkbox: <input type="checkbox" id="myCheck">
+
+<button onclick="check()">Check Checkbox</button>
+<button onclick="uncheck()">Uncheck Checkbox</button>
+
+<script>
+function check() {
+    document.getElementById("myCheck").checked = true;
+}
+
+function uncheck() {
+    document.getElementById("myCheck").checked = false;
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Test iframe</h1>
+<iframe id="test_iframe" src="about:blank" width=400 height=400></iframe>
+<button onClick="javascript:injectHTML();">Inject HTML into iframe</button>
+
+<style>
+//css code for iframe
+iframe {
+  width: 100%;
+  height: 100%;
+}
+</style>
+
+
+function injectHTML() {
+
+	//alert('HI');
+
+  //step 1: get the DOM object of the iframe.
+  var iframe = document.getElementById('test_iframe');
+
+ var html_string = '<html><head></head><body bgcolor=black>';
+    html_string += '<p><font color=white>iframe';
+    html_string += 'content injection<br>';
+    html_string += 'more text here <font color=lime>';
+    html_string += 'starbucks</font>';
+    html_string +=  '</p></body></html>';
+
+  /* if jQuery is available, you may use the get(0) function to obtain the DOM object like this:
+  var iframe = $('iframe#target_iframe_id').get(0);
+  */
+
+  // step 2: obtain the document associated with the iframe tag
+  // most of the browser supports .document.
+  // Some supports (such as the NetScape series) .contentDocumet,
+  // while some (e.g. IE5/6) supports .contentWindow.document
+  // we try to read whatever that exists.
+
+
+  var iframedoc = iframe.document;
+  if (iframe.contentDocument)
+    iframedoc = iframe.contentDocument;
+  else if (iframe.contentWindow)
+    iframedoc = iframe.contentWindow.document;
+
+  if (iframedoc) {
+    // Put the content in the iframe
+    iframedoc.open();
+    iframedoc.writeln(html_string);
+    iframedoc.close();
+  } else {
+    //just in case of browsers that don't support the above 3 //properties.
+    //fortunately we don't come across such case so far.
+    //alert('Cannot inject dynamic contents into iframe.');
+  }
+}
+
+
+-->
+
+
+
+
+
+
+<!--
+
+
+
+
+<iframe id="iframe"></iframe>
+
+-->
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+//css code for iframe
+iframe {
+  width: 100%;
+  height: 100%;
+}
+
+
+
+
+
+
+.showbox {
+    height:10px;
+    width:10px;
+    background: orange; //#00ff00; //powerderblue
+    border: 2px solid #fff;
+    border-radius: 25px;
+    box-shadow: 0px 1px 5px #888888;
+    transform-origin:50% 50%;
+    transform:scale(1);
+    animation: pulse 0.6s infinite linear alternate;
+    -webkit-animation: pulse 0.6s infinite linear alternate;
+}
+@keyframes pulse {
+    to {
+        transform:scale(1.3);
+    }
+}
+@-webkit-keyframes pulse {
+    to {
+        transform:scale(1.3);
+    }
+}
+
+
+ //css
+
+.zu
+</style>
+
+
+<!--
+<style>
+
+
+/*
+div {
+    height: 200px;
+    width: 50%;
+    background-color: powderblue;
+}
+*/
+
+
+</style>
+-->
+	<title>fun</title>
+
+
+    <!-- script type = "application/javascript;version=1.8"-->
+ <script language="javascript">
+
+
+/*
+//finally my checkbox to turn trace on to on or off
+html
+
+
+
+
+
+
+*/
+
+  //// TRACE //////
+    function trace(x){
+   // alert("trace function called");
+
+    //debugger;
+     // trace("trace");   //it was push(x);
+       functionscalledlist.unshift(x); //this should add word to the front of list
+     // tracetable(); //no tracetable(x);
+       // alert("testing....");
+   // tracetable(x);  //fucking bug I had a } behind it instead of a ;
+    //so now it will dynamically build the table in real time.
+    } //end function
+
+
+
+function swap(a,b){
+	  //("a = " + a + "and " + "b= "+ b);
+	  var c = a;
+	  var d = b;
+	    b = c;
+	    a = d;
+	 //alert("a = " + a + "and " + "b= "+ b);
+
+	}//end function
+
+
+
+function magic(){
+var a = 'bad';
+var b = 'cat';
+swap(a,b);
+
+}//end func
+
+
+
+function grabfirstletter(){
+trace("grabfirstletter");
+//alert("grab first letter called");
+
+//debugger;
+  //alert('grab first letter button clicked');
+  //debugger;
+ x =  document.forms["theform"].elements["grabletterhere"].value;
+  x = x.trim();
+
+ // alert("the letter entered for search filter is " + x);
+
+  console.log(x);
+  msgconsole("grab letter", x,"did it work")
+ // alert("x = " + x);
+ // alert("it sees the letter = " + x);
+
+ tracetable("grabfirstletter"); //I need the set up for each function now to keep track of it
+ possibly(x); //this should build the subarray from the word list filtered by the letter selected
+}//end function
+
+
+
+        //I can just have a field and have on or off or true or false
+        // in the field to turn trace on and off because it will definitely work.
+
+ ///==========================================================================
+    /*
+       let x = 0;
+       let y = 3;
+       x = 3 ** 3;    //same as fortran now - cool.
+       alert("x = " + x);     //this worked which is interesting.
+    */
+
+
+
+ //rather than   var sublist = new Array();
+  let sublist = []; //this is the new array I populate with the same letter words only
+
+	let wordlist = []; //this is the grand official list of words in the reverse dictionary
+
+	// this is the dictionary  so when I click on "word list" button it should show these
+
+	wordlist[0]  = "difficult";
+	wordlist[1]  = "frustrated";
+	wordlist[2]  = "smart";
+	wordlist[3]  = "but";
+	wordlist[4]  = "cryptic";
+	wordlist[5]  = "hostile";
+	wordlist[6]  = "dishonest";
+	wordlist[7]  = "determined";
+	wordlist[8]  = "scarcity";
+	wordlist[9]  = "belittle";
+	wordlist[10] = "criticize";
+	wordlist[11] = "arrogant";
+	wordlist[12] = "dire";
+	wordlist[13] = "snoopy football";
+	wordlist[14] = "gti";
+	wordlist[15] = "lazy";
+
+// I need to put a word list in a js file so that I can add to it
+// and keep it independent from this file.
+
+
+//I need a global variable for traceon status
+
+
+//this is the loader to turn on the trace table flag.
+function dothis(){
+//alert("dothis called putting on into field");
+  document.forms["theform"].elements["traceswitch"].value= "on";
+}
+
+
+var funcsfiredlist = new Array(); //this is the array I will add funcnames to
+
+    ////// dynamic list for trace function
+   // html table with alternating colors with hover above feature
+
+   //by default tracetable won't show up on the output list because
+   //it is called each time and it's implied that it's called.
+function tracetable(x){
+//alert("tracetable function called");
+
+//trace("tracetable");//this writes to the output trace TRON
+//alert("about to see if checkbox works and if trace is turn on or off");
+//alert("traceonvar = " + traceonvar);
+
+//possibly('s');
+var testthis = x
+//alert("x in the tracetable = " + x);
+
+//alert('testthis =' + testthis);
+//alert("function tracetable called");
+/*
+this is the dynamic trace table that
+will enter each function called and eventually
+the parameters passed to it and the variable
+values and the resulting output values too
+for fast analysis
+and it works by calling tracetable function which
+is inside of each function and the tracetable
+itsself function doesn't show up (unless I want it too)
+and I can turn it on or off at any time using
+a checkbox that triggers a flag to build the dynamic
+table in the third iframe.
+
+
+*/
+
+
+ var iframe = document.getElementById('trace_iframe'); //good so far
+
+      var html_string  = '<html><head>';
+          html_string += '<style>';
+          html_string += '.zui-table {';
+          html_string += '  border: solid 1px #DDEEEE;';
+          html_string += '   border-collapse: collapse;';
+          html_string += '  border-spacing: 0;';
+          html_string += '  font: normal 13px Arial, sans-serif;';
+          html_string += '}';
+          html_string += '.zui-table thead th {';  //D4A4F1
+          html_string += '    background-color: #DDEFEF;';  //D4A4F1  nice purple
+          html_string += '   border: solid 1px #DDEEEE;';  //4DF54E  nice green
+          html_string += '   color: #336B6B;';
+          html_string += ' padding: 10px;';
+          html_string += '  text-align: left;';
+          html_string += '  text-shadow: 1px 1px 1px #fff;';
+          html_string += '}';
+          html_string += '.zui-table tbody td {';
+          html_string += '   border: solid 1px #DDEEEE;';
+          html_string += '   color: #333;';
+          html_string += '  padding: 10px;';
+          html_string += '  text-shadow: 1px 1px 1px #fff;';
+          html_string += '}';
+          html_string += '.zui-table-highlight tbody tr:hover {';
+          html_string += '   background-color: #4DF54E;';
+          html_string += '}';
+          html_string += '.zui-table-horizontal tbody td {';
+          html_string += '    border-left: none;';
+          html_string += '    border-right: none;';
+          html_string += '}';
+          html_string += '</style>';
+          html_string += '</head>';
+          html_string += '<body bgcolor=white border=1><font color=dodgerblue><font size=3><font face="Menlo">&nbsp;&nbsp;TRON Functions Trace Recent At Top</font></br>';
+          html_string += '<table class="zui-table zui-table-horizontal zui-table-highlight"><thead>';
+          html_string += '<tr><th>Trace Funcs</th>';
+          html_string += '<th>Inputs</th>';
+          html_string += '<th>Vars</th>';
+          html_string += '<th>Outputs</th>';
+          html_string += '<th>Return</th>';
+          html_string += '</tr></thead><tbody>';
+    //---------------------------------------
+    //loop starts here
+
+
+          //trace on or off switch
+      var coffee = document.forms["theform"].elements["traceswitch"].value;
+           if(coffee=="on"){
+           //proceed
+           //alert("on for trace");
+           }else{
+           //alert("trace is off");
+           return; //stops the function
+           } //end if
+
+
+        //this refeverses the array of funcs called
+          //functionscalledlist = functionscalledlist.reverse();// it was unshift()
+
+          for( var j =0; j< functionscalledlist.length; j++) {  //bug error sublist not defined wow.
+
+          html_string += '<tr><td>' + functionscalledlist[j] + '</td>';
+          html_string += '<td>input a</td>';
+          html_string += '<td>input b</td>';
+          html_string += '<td>output a</td>';
+          html_string += '<td>output b</td>';
+          html_string += '</tr><tr>';
+
+    } //end loop
+
+
+
+       //------------------------------------
+      html_string +=  '</tbody></table></body></html>';
+  //end of table
+
+  var iframedoc = iframe.document;
+  if (iframe.contentDocument)
+    iframedoc = iframe.contentDocument;
+  else if (iframe.contentWindow)
+    iframedoc = iframe.contentWindow.document;
+
+  if (iframedoc) {
+    // Put the content in the iframe
+    iframedoc.open();
+    iframedoc.writeln(html_string);
+    iframedoc.close();
+  } else {
+
+  }
+}//end funciton most likely
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ////////////=======================================
+
+
+
+     var funcname= "injectHTML";   //testing function name called
+
+      var testing;  //sets it. as global
+
+
+      //I need to have the funcname change and the variables for each function
+      // and flag names in each function
+      /*
+      so I need to have a small array with the funcname and vars defined globally
+      above each funcname and then the functoshowfordebuggingat the top
+      of each function and bottom for showing the changes so 2 function calls
+      */
+
+
+
+      //anything to save typing
+   function v(x){  //this is not fired unless it's called
+    alert(x);
+   }
+   //this worked
+   //would result in
+   //v("show this");
+   //v("another one");
+
+
+
+
+      //////////////////////////////////////////////////
+      //testing array
+      var input = ["testingpassingarray.func", "Saab.var", "Volvo.var", "BMW.flag"];  //called as testpassingarray(input); //with variable name passed
+       //I might need to pass the name of the array to the function by the arrayname, but how?
+      //testing new code now when hitting the clear button
+      //the objective of this is to pass an array as an argument to an function
+      //possible if I pass 2 arguments, so nameofarray, then array, brilliant - if it works
+      //the idea is to have a differing number of variables and flags and I will
+      // need a marker to determine varnames and flagnames
+      //what I can do is have one var called.flag for flags, and .func as a key to what's what (nice)
+      function testingpassingarray(x){
+         // alert("the var passed in is " + x);
+      //next I need to have a loop to go through the array.
+      for (var i = 0, len = x.length, text = ""; i < len; i++) { //ah it gest the length of the array, nice
+         //text += x[i] + "<br>";
+       //alert(x[i]);
+       //perhaps I will fill a new array to
+      }//end for loop
+
+      }// end function
+
+
+
+     //what I am going to do is put messages
+     // in the iframe at the top
+     // and then redraw/reload the iframe
+
+
+
+
+
+      //this function isn't being called yet
+    //experimental making universal debugging function for vars and arguments and func name
+
+    //I might need to make y a global array to hold many variables
+    //and then to display them it has to count them to know how many to show
+    //this will be done with a loop and can be done first after this function'
+    //is called.
+
+
+
+
+    function universalshowvars(x,y) {  //UNIVERSAL SHOW VARS  function
+   //after considerable thought I think it's better for now to show just
+   //the vars and function name one at a time
+   //but each time a function is called I can add the data into arrays in a function
+   //that are global to show all of the vars and flags for the history view
+   //and comments of the condition of each taken through the flow of control.
+
+//testing a message
+var msg = "testing this out for now<br>adding a long message to see what happens";
+//I could put a smaller iframe above teh current iframe for messages
+//so they are indepedent
+  var iframe = document.getElementById('test_iframe');
+
+ var html_string = '<html><head></head><body bgcolor=black>';
+     //html_string += '<table width = 430 border = 1 ><!-- message name -->';
+     //html_string += '<tr><td><font size = 4><font color=lime><b>message</b> &nbsp;</font><font face="Menlo"> <font color=yellow><b>' + msg + '<b></font>';
+     //html_string += '</td></tr></table>';
+
+     html_string += '<table width = 230 border = 1 ><!-- function name -->';
+     html_string += '<tr><td><font size = 4><font color=lime><b>function</b> &nbsp;</font> <font color=yellow><b>' + x + '<b></font></td></tr>';
+     html_string += '</table>';
+     html_string += '<table width = 230 border = 1 ><!-- variable name -->';
+     html_string += '<tr><td><font size = 4><font face = "inconsolata"><font color=#FF336D><b>var wordchosen =</b></font> <font color=yellow><b>' + y +  '</b></font></td></tr>';
+     html_string += '<tr><td><font size = 4><font color=#FF336D><b> var cb = </b></font><font color=yellow><b>4</b></font></td></tr>';
+     html_string += '<tr><td><font size = 4><font color=#33CBFF><b>flag none1 =</b></font> <font color=lime><b>true</b></font></td></tr>';
+     html_string += '<tr><td><font size = 4><font color=#33CBFF><b>flag none2 =</b> </font><font color=#FF336D><b>false</b></font></td></tr>';
+     html_string +=  '</p></body></html>';
+
+
+
+  var iframedoc = iframe.document;
+  if (iframe.contentDocument)
+    iframedoc = iframe.contentDocument;
+  else if (iframe.contentWindow)
+    iframedoc = iframe.contentWindow.document;
+
+  if (iframedoc) {
+    // Put the content in the iframe
+    iframedoc.open();
+    iframedoc.writeln(html_string);
+    iframedoc.close();
+  } else {
+
+  }
+}//end funciton most likely
+
+
+
+
+
+
+///===========================
+    // I need to have section names in my programs for location
+
+   //======================
+   //testng code thursday july
+
+    //global variables for testing output in color
+     var funcname2 = "newone";   //testing function name called
+
+      var testing2 = "snoopy football";  //sets it. as global
+
+      var funcname = "injectHTML"
+      var testing = "fish";
+
+    //   msgconsole
+function msgconsole(x,y,z) {     //remember 3 vars as parameters
+ trace("msgconsole");
+ tracetable("msgconsole"); //see if this works
+ //alert("testing var = " + testing);
+  //step 1: get the DOM object of the iframe. THIS IS IT
+  var iframe = document.getElementById('msg_iframe');
+//testing two functions and more variables
+     var msghere    = x;
+     var linenumber = y;  //line number
+     var location   = z;  //location inside the program
+ var html_string = '<html><head></head><body bgcolor=black>';
+     html_string += '<table width = 430 border = 0 >';
+     html_string += '<tr><td><font size = 2><font face="Menlo"><font color=white><b>message</b>&nbsp;</font> <font color=lime><font face="Menlo"><b>' + msghere + '</b></font>';
+     html_string += '</td></tr>'
+     html_string += '<tr><td><font size = 2><font face="Menlo"><font color=white><b>line num</b> </font> <font face="Menlo"><font color=lime><b>' + linenumber + '</b></font></td></tr>';
+     html_string += '<tr><td><font size = 2><font face="Menlo"><font color=white><b>location</b> </font> <font face="Menlo"><font color=lime><b>' + location + '</b></font>';
+     html_string += '</td></tr> </table>';
+     html_string +=  '</p></body></html>';
+
+  var iframedoc = iframe.document;
+  if (iframe.contentDocument)
+    iframedoc = iframe.contentDocument;
+  else if (iframe.contentWindow)
+    iframedoc = iframe.contentWindow.document;
+  if (iframedoc) {
+    // Put the content in the iframe
+    iframedoc.open();
+    iframedoc.writeln(html_string);
+    iframedoc.close();
+  } else {
+  // do nothing2
+  }
+}//end funciton most likely
+
+ /*
+ I think that in the right iframe which may turn into two but maybe not
+ I will have the strawberry code more readable code and what it should do
+ and possibly the English description meaning steps also like I have
+ for my managing arrays page.
+
+
+
+ */
+
+
+
+
+
+
+
+
+
+
+//I will need to reference the code stored elsewhere... but how
+
+//oh an idea, perhaps in a js file why not
+
+//var straw = "if(x == true ) then<br>";
+  //  straw +="do something.<br>";
+
+    //strawberry code view
+     //   msgconsole  instead what I will do is load a page into the iframe on the right of strawberry code. genius
+     //<iframe src="filename.html"></iframe>
+
+
+function strawberrycodeview(x) {     //remember 3 vars as parameters
+//alert("strawberry code view called");
+ //alert("testing var = " + testing);
+  //step 1: get the DOM object of the iframe. THIS IS IT
+  var iframe = document.getElementById('strawberry_iframe');
+//testing two functions and more variables
+     var strawcode    = x;
+
+  //var strawcode ="if(x == true ) then<br>";
+  //  strawcode +="do something.<br>";
+  //  alert("strawcode =" + strawcode);
+   msgconsole("testing","one","one");
+    //debugger;
+ var html_string = '<html><head></head><body bgcolor=black>';
+     html_string += '<table width = 430 border = 0 >';
+     html_string += '<tr><td><font size = 4> <font color=lime><font face="Menlo"><b>' + strawcode + '</b></font></td></tr>';
+     html_string += '<tr><td><font size = 4> <font color=lime><font face="Menlo"><b>' + strawcode + '</b></font></td></tr>';
+
+     html_string += '</table>';
+     html_string +=  '</p></body></html>';
+
+  var iframedoc = iframe.document;
+  if (iframe.contentDocument)
+    iframedoc = iframe.contentDocument;
+  else if (iframe.contentWindow)
+    iframedoc = iframe.contentWindow.document;
+  if (iframedoc) {
+    // Put the content in the iframe
+    iframedoc.open();
+    iframedoc.writeln(html_string);
+    iframedoc.close();
+  } else {
+  // do nothing2
+  }
+}//end funciton most likely
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //========================
+    //global variables for testing output in color
+     var funcname2 = "newone";   //testing function name called
+
+      var testing2 = "snoopy football";  //sets it. as global
+
+      var funcname = "injectHTML"
+      var testing = "fish";
+
+    //   javascript: console.log(2);
+function injectHTML2() {
+ //alert("testing var = " + testing);
+  //step 1: get the DOM object of the iframe. THIS IS IT
+  var iframe = document.getElementById('test_iframe');
+var testing = "fish"; //this should override it forcefeed
+//testing two functions and more variables
+ var html_string = '<html><head></head><body bgcolor=black>';
+     html_string += '<table width = 430 border = 0 ><!-- function name -->';
+     html_string += '<tr><td><font size = 4><font color=white><b>function</b> &nbsp;</font> <font color=lime><b>' + funcname2 + '<b></font></td></tr>';
+     html_string += '</table>';
+     html_string += '<table width = 430 border = 0 ><!-- variable name -->';
+     html_string += '<tr><td><font size = 4><font face = "inconsolata"><font color=#FF336D><b>var</font><font color=yellow> wordchosen</font><font color=white> <b>=</b></font></b></font> <font color=lime><b>' + testing2 +  '</b></font></td></tr>';
+     html_string += '<tr><td><font size = 4><font color=#FF336D><b> var </font><font color=yellow>cb</font><font color=white><b> =</b></font> </b></font><font color=yellow><b>4</b></font></td></tr>';
+     html_string += '<tr><td><font size = 4><font color=#33CBFF><b>flag</font><font color=aquamarine> none1</font><font color=white> = <font color=#FF336D><b>false</b></font></b></font> </td></tr>';
+     html_string += '<tr><td><font size = 4><font color=#33CBFF><b>flag</font><font color=aquamarine> none2</font><font color=white> = <font color=lime><b>true</b></font></b> </td></tr>';
+     //html_string +=  '</p></body></html>';
+     html_string += '</table>';
+     html_string += '<table width = 430 border = 0 >';
+     html_string += '<tr><td><font color=lightgrey>- - - - - - - - - - - - - - - - - - - - - - - - - - - - -</font></td></tr>';
+
+     html_string += '<tr><td><font size = 4><font color=white><b>function</b> &nbsp;</font> <font color=lime><b>' + funcname + '<b></font></td></tr>';
+     //html_string += '</table>';
+
+     html_string += '<tr><td><font size = 4><font face = "inconsolata"><font color=#FF336D><b>var</font><font color=yellow> wordchosen</font><font color=white> <b>=</b></font></b></font> <font color=lime><b>' + testing +  '</b></font></td></tr>';
+     html_string += '<tr><td><font size = 4><font color=#FF336D><b> var</font><font color=yellow> cb</font><font color=white><b> =</b></font> </b></font><font color=yellow><b>4</b></font></td></tr>';
+     html_string += '<tr><td><font size = 4><font color=#33CBFF><b>flag </b><font><font color=aquamarine>none1 </font><font color=white><b>=</b> <font color=lime><b>true</b></font></b></font> </td></tr>';
+     html_string += '<tr><td><font size = 4><font color=#33CBFF><b>flag </b><font><font color=aquamarine>none2</font><font color=white><b> =</b></font> <font color=lime><b>true</b></font></b> </td></tr>';
+     html_string +=  '</p></body></html>';
+
+  var iframedoc = iframe.document;
+  if (iframe.contentDocument)
+    iframedoc = iframe.contentDocument;
+  else if (iframe.contentWindow)
+    iframedoc = iframe.contentWindow.document;
+
+  if (iframedoc) {
+    // Put the content in the iframe
+    iframedoc.open();
+    iframedoc.writeln(html_string);
+    iframedoc.close();
+  } else {
+  // do nothing2
+  }
+}//end funciton most likely
+
+
+
+
+
+
+
+
+
+
+
+    ///////////==========================
+      var funcname= "injectHTML";   //testing function name called
+
+      var testing;  //sets it. as global
+
+      //
+      /*
+      what is in the iframe will change
+      and a new set of html content will be sent to it so
+      I will need a ////debugger; command and just before it
+      call the injecthtml function andI need to pass it parameters
+      of the function name and variables and flags
+      so possibly in an array
+
+
+      */
+
+
+    //   javascript: console.log(2);
+function injectHTML() {
+
+
+  //step 1: get the DOM object of the iframe. THIS IS IT
+  var iframe = document.getElementById('test_iframe');
+ var html_string = '<html><head></head><body bgcolor=black>';
+     html_string += '<table width = 430 border = 1 ><!-- function name -->';
+     html_string += '<tr><td><font size = 4><font color=lime><b>function</b> &nbsp;</font> <font color=yellow><b>' + funcname + '<b></font></td></tr>';
+     html_string += '</table>';
+     html_string += '<table width = 430 border = 1 ><!-- variable name -->';
+     html_string += '<tr><td><font size = 4><font face = "inconsolata"><font color=#FF336D><b>var wordchosen =</b></font> <font color=yellow><b>' + testing +  '</b></font></td></tr>';
+     html_string += '<tr><td><font size = 4><font color=#FF336D><b> var cb = </b></font><font color=yellow><b>4</b></font></td></tr>';
+     html_string += '<tr><td><font size = 4><font color=#33CBFF><b>flag none1 =</b></font> <font color=lime><b>true</b></font></td></tr>';
+     html_string += '<tr><td><font size = 4><font color=#33CBFF><b>flag none2 =</b> </font><font color=#FF336D><b>false</b></font></td></tr>';
+     html_string +=  '</p></body></html>';
+
+
+  var iframedoc = iframe.document;
+  if (iframe.contentDocument)
+    iframedoc = iframe.contentDocument;
+  else if (iframe.contentWindow)
+    iframedoc = iframe.contentWindow.document;
+
+  if (iframedoc) {
+    // Put the content in the iframe
+    iframedoc.open();
+    iframedoc.writeln(html_string);
+    iframedoc.close();
+  } else {
+   //do nohting
+  }
+}//end funciton
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //july 1, 2017 starbucks coding on my table.  ///////;;;;;;;;;;;;;;
+    /////;;;;;;;;;;;;;;;;;
+    /////;;;;;;;;;;;;;;;;;
+
+
+	//JULY 1, 2017
+	function flaginnerchange(t){ //this is for the debugger.
+	trace("flaginnerchange");
+		   //I was able to manipulate and change innerHTML hooray
+	 var coolbaby =t;
+	 var coolbaby2 = document.forms["theform"].elements["eight"].value;
+     var resultString = "<table bgcolor=black height = 100 width = 200> <tr><td><p><font color=limegreen>new flag value</font><font color=red> " + coolbaby + " </font></td></tr></table> </p>";
+     var resultString2 = "<table bgcolor=black height = 200 width = 800> <tr><td><p><font color=limegreen>new flag value</font><font color=red> " + coolbaby2 + " </font></td></tr></table> </p>";
+
+// print out to page
+     var blk = document.getElementById("result");
+         blk.innerHTML = resultString;
+
+         var blk = document.getElementById("result2"); //testing to see if it shows a second box
+         blk.innerHTML = resultString2;
+
+	} //end function
+
+
+
+
+
+
+	// I need to have a diagram for the debugger like a high level
+//	flow chart that has levels to zoom into details
+
+	function whynottwo(){
+	//trace("whynottwo");
+
+	whynot();
+
+	} //end function
+
+
+
+
+
+
+
+
+
+	function whynot(){
+	//trace("whynot");
+	funny();
+	} //end function
+
+
+	// now figure out how to take in more than one word
+	// and put them into an array
+
+
+
+	//// FUNNY //////
+	function funny(){
+	 //  trace("funny");
+	   newone();
+	} //end function
+
+
+	//I need to summarize the human logic ruleset of how this
+	// program works so I can make it better.
+
+
+
+	/*
+	July 1, 2017 starbucks
+	for selecting the search field after hitting return
+	so that I can change to another word without having to click on it
+	//  document.getElementById("myText").select();
+
+sample code below from the web shows it working and selecting the word in the text field
+<!DOCTYPE html>
+<html>
+<body>
+
+Name: <input type="text" id="myText" value="Mickey">
+
+<p>Click the button to select the contents of the text field.</p>
+
+<button type="button" onclick="myFunction()">Try it</button>
+
+<script>
+function myFunction() {
+    document.getElementById("myText").select();
+}
+< /script>
+
+</body>
+</html>
+
+
+	//from web remember I will start using a main function
+	function main() {
+  return 'Hello, World!';
+}
+
+//main();
+
+
+
+	*/
+
+	//wednesday july 12 2017
+	//future features to add
+	//function called list in new iframe
+	//word list search by filtering by first letter
+	//view of current function in highly readable Strawberry code
+
+
+	//============================== workign on this part
+
+//function myFunction() {
+ //  possibly('d');  //search for words starting with b in array
+// }
+
+
+
+
+
+//this is also called to do the list of words starting with first letter
+
+function possibly(x){ //I can pass a letter to this function as an argument
+  //looop
+  //debugger;
+  //alert("possibly called");  //I need to figure out how this works and what it's doing
+  trace("possibly");
+  //trace("grabfirstletter");
+
+  //trying to figure this out
+  //alert("sublist sees = " + sublist);
+  //sublist = ""; //empty it out first.
+  //alert("wordlist = " + wordlist + "wordlist length = " + wordlist.length);
+
+  //this grabs the first letter of each word and is used for filtering for my filter from a list from the dictionary
+   //alert("about to possibly start for loop inside of possibly function");
+
+   for (var i = 0; i < wordlist.length; i++) {
+    if(wordlist[i].charAt(0) == x){ //if array item starts with first letter then add it to new list array sublist
+   //here a new array is built by adding an item to sublist
+    // alert("inside of if in for loop is this called ######");
+
+    //and do I need eval?
+   // alert("before doing eval sublist = " + sublist);
+ eval(sublist.push(wordlist[i]));   //the bugs was I had sublist[i] not wordlist[i]
+
+    //alert("after doing eval sublist = " + sublist);
+     //what I can do is use unshift to add item to beginning of array and then reverse the array
+     //and that way I get the same result and completely avoid using the push method
+     //which seems to be buggy.
+
+   //possible changes below
+   /*
+     sublist.unshift(wordlist[i]); add to front of list
+     sublist.sort(); //need to do this
+     after doing that then reverse it
+     sublist.reverse();
+   */
+
+
+    //uses eval and push to grab the current array item and amend it to array sublist  - how it works (lower level)
+      } //end if
+    } //END LOOP.
+
+    //alert(" is THIS AREA even reached?");
+
+
+  //alert("in middle sublist after sorting = " + sublist);
+
+     sublist = sublist.sort();   //even sorting is tough
+     var s = sublist.join(", ");   //trying join here -adding space for comma
+     sublist =s;
+    // document.getElementById("demo").innerHTML = sublist;
+     //alert(" sublist array starting with letter is = " + sublist);
+     /* clear it out first */
+
+    // alert("sublist at this point before putting into field sees " + sublist);
+
+     document.forms["theform"].elements["filteredwords"].value = " ";
+     document.forms["theform"].elements["filteredwords"].value = sublist; //this is new
+}//end function
+
+
+
+
+	// a thought of using a field to put alert messages in  which
+	// are less intrusive.
+
+
+
+
+
+
+
+
+
+
+
+
+	//// NEWONE //////  THIS FUNCTION TRIGGERS THE ACTUAL DAMN SEARCH I SHOULD HAVE JUST CALLED IT SEARCH
+
+	function newone(){
+	console.log("newone function called");
+	trace("newone");
+	tracetable("newone"); //see if this works
+	//alert("function name = newone()");
+	//alert("this is the switch function which needs to be called first");
+
+	//alert("newone called which is the search function");
+
+	//trace("newone");  // OH YEAH the trace is the name of the function called for debugging trace
+
+	var y = document.forms["theform"].elements["txt_name"].value;
+	        document.forms["theform"].elements["txt_name"].select();  //selects search field after search
+	console.log(y);
+	 //document.getElementById("txt_name").select();
+	//alert("word entered " + y);
+	//////debugger;
+//Later I might use ifs instead so that I can have more control
+// since the switch case has limiting factors.
+//and I can populate an array to show the words instead of blindly into a field
+     testing = y;
+
+      msgconsole("about","to","enter switch case");
+      //debugger;
+	//SWITCH ........................
+	switch(y){
+	//trace("switch"); //will it work?
+	case "arrogant":
+console.log("arrogant");
+console.log("inside of switch case");
+	 document.forms["theform"].elements["two"].value = "hubris, haughty, conceited, self-important, superior, overbearing, entitlement, offensive";
+	 break;
+
+	 case "dire":
+    document.forms["theform"].elements["two"].value = "frightful, dreadful, terrible, awful, atrocious, grim, appalling, gloomy, grim, dismal";
+	 //alert("dire searched for");
+	 msgconsole("dire search field","1237","search field");
+	 break;
+
+	  case "frustrated":
+	    document.forms["theform"].elements["two"].value = "thwarted discouraged foiled fouled up, irked stymied";
+	 //clearinnerhtml(); //triggering clearin innerhtml output
+	 break;
+
+	  case "smart":
+
+	 document.forms["theform"].elements["two"].value = "bright sharp shrewd clever astute";
+	     universalshowvars("newone","smart");  //passing funcname and var to output iframe
+	 break;
+
+	   case "but":
+   //this should trigger it
+	 document.forms["theform"].elements["two"].value = "unless, if not, except that, otherwise, though, however";
+	 msgconsole("nothing here yet","657","switch case in newone()")
+	 universalshowvars("newone","but");
+	 break;
+
+
+	    case "gti":
+   //this should trigger it
+	 document.forms["theform"].elements["two"].value = "I want a VW GTI";
+	 msgconsole("gti","2017","gti")
+	 universalshowvars("newone","gti");
+	 break;
+
+	 case "cryptic":
+
+	 document.forms["theform"].elements["two"].value = "confusing, puzzling, opaque secret hidden conceal encoded";
+	 universalshowvars("newone","cryptic");
+	 break;
+
+
+	  case "lazy":
+
+	 document.forms["theform"].elements["two"].value = " doesn't want to work";
+	 universalshowvars("newone","lazy");
+	 break;
+
+
+
+	  case "hostile":
+          //this should trigger it to test writing innerHTML
+         // starbucks();
+	 document.forms["theform"].elements["two"].value = " bitter malicious vicious venomous averse against opposing offensive antagonistic";
+	 //controliframe1(); //triggering innhtml test
+	 //injectHTML();
+	  universalshowvars("newone","hostile");
+	  //debugger;
+	   msgconsole("now just finished","with words","starbucks")
+	  //debugger;
+	//////debugger;
+	 break;
+
+	 ////
+	 //testing using two words in a switch case a first for me
+	   case "snoopy football":
+
+	 document.forms["theform"].elements["two"].value = " charlie brown dog thanksgiving test";
+	  injectHTML2();
+	  tracetable("mocha")
+	  ////debugger;
+	 break;
+
+	 ////
+
+	    case "dishonest":
+
+	 document.forms["theform"].elements["two"].value = " mislead, cheat untrustworthy, fraudulent, hypocrite deceitful";
+	 break;
+
+
+	    case "criticize":
+
+	 document.forms["theform"].elements["two"].value = " denounce condemn attack discredit find fault negative deflate dismissive detests cynical rejection";
+	 break;
+
+	    case "belittle":
+
+	 document.forms["theform"].elements["two"].value = " sneer criticze debase demean humiliate diminish minimize trivalizde abuse insult";
+	msgconsole("the code made it to this switch case and found the word belittle","650","inside the big switch case");
+
+	strawberrycodeview("<code>if(x == true ) then</code>");
+	//debugger; //is this working
+	 break;
+
+	    case "scarcity":
+
+	 document.forms["theform"].elements["two"].value = " dearth deficit inadequacy failure famine, small supply";
+	 break;
+
+	     case "determined":
+
+	 document.forms["theform"].elements["two"].value = " tenacious dogged strong-willed tireless resolute patient staunch steadfast unwavering persistent";
+	 break;
+
+	     case "difficult":
+
+	 document.forms["theform"].elements["two"].value = " hard arduous laborious strenuous tought onerous burdensome grueling awkward back-breaking";
+	 break;
+
+
+	 ///////////////////////
+	 default:
+	   document.forms["theform"].elements["two"].value = "not in database";
+	   ////debugger;
+
+//-------------------------------------------------------------------
+  break;
+
+	//case "coffee": alert("coffee in switch case"); break;
+
+	}//end switch   /////END SWITCH //=============================
+
+
+	} //end function
+	/////////......,,,//////////
+
+
+
+
+
+
+
+
+	/*
+
+	trace("sort_list");
+
+
+	*/
+
+
+	//GRAB FUNCTION NAME WITH ALERT AT FIRST
+	//THEN ADD IT TO AN ARRAY
+	//THEN FEED IT INTO GROWING LIST OF IFRAME OF FUNCTIONS CALLED
+	//ADDING IT TO A TABLE.
+
+
+
+
+
+
+	function zap(){
+	trace("zap");
+	//alert("zap called");
+	   document.forms["theform"].elements["txt_name"].value= "";
+	   document.forms["theform"].elements["two"].value = "";
+	    document.forms["theform"].elements["txt_name"].select(); //nice, love it when code works
+	} //end function
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//this works don't touch it ; don't even think of messing with it
+	function checkKey(){  //I can't believe that this worked
+	//alert("checkkey called");
+	//alert('function called checkkey');
+   if (window.event.keyCode == 13){ //return key pressed in field
+   //alert('return noticed');
+      //whynottwo();
+      newone();  //should be called
+   }// end if
+   }//end function
+
+
+
+	//new addition in oregon on april 2, 2017
+
+
+
+
+
+
+
+	function sort_list(){
+	trace("sort_list");
+	//alert('function called sort_list');
+	//alert("sort list funciton called");
+
+	//alert(wordlist.sort());
+	}
+
+
+
+
+	/////////////////////////////////
+	///////////////////////////////
+	//I might just replace this with the code that's in managing arrays . html
+
+
+
+
+
+
+
+
+//possibly I need to try this out in another file
+// to clean it up and find the bug.
+
+	function dothelist(){
+	trace("dothelist");
+	//alert("dothelist called to show words in reverse dictionary");
+	//debugger;
+	//alert("function thelist called after clicking on word list button!!!!!!");
+	//trace("thelist");
+	var firstletter = document.forms["theform"].elements["four"].value;   //takes in letter entered
+	 console.log(firstletter);
+	v = firstletter.trim(); //try this get rid of leading white space THIS WORKED!!!!!
+	//alert(x);
+	 console.log(firstletter);
+	var flag_letter = false; //default flag off for lettere entered
+	 console.log(flag_letter);
+	//////debugger;
+	//grab letter entered if  //"if name"
+
+	// I need to chop this function in half
+
+	//I commented out the mean if
+
+	/*
+	//commented out
+	if(x != "" && x != " " &&  x != undefined && x != null){ //determines if no letter eneted
+	  // alert(" letter entered is " + x);  //maybe have it just == undefined
+	   flag_letter = true;
+	    console.log(flag_letter);
+	   //flaginnerchange("true"); //see if this works
+	   console.log(flag_letter);
+	   document.forms["theform"].elements["six"].value = "true";
+	   }else{
+	  // alert(" no letter entered"); //it gets to here at least detecting no letter entered
+	   flag_letter = false;
+	    console.log(flag_letter);
+	   //this is a flag but for what?
+	   document.forms["theform"].elements["six"].value = "false"; //this is a flag
+	} //end if
+	//commented out
+  */
+
+
+	//the code is just not clear to me what it's doing and how it works
+	// it's so easy to lose track of the flow and the decision points and
+	// the flow of control. It's hard to not know what it's doing
+	// when I can't see the logic. It's hard to see the design of how it works and what it does.
+	//I will make a copy of the whole page and edit out the flag for the one letter filter
+	//which is throwing me off - all the flags in fact.
+
+
+
+	//I will make a short cut to show dictionary in search engine to show words
+	//without a filter of course
+
+
+	//alert(wordlist);
+	//the machine is an idiot and I need to add words to this array so it can see the information
+   // alert("made it this far + + + + + + + +");
+	wordlist.sort();  //puts list into alphabetical order
+	//alert("the wordslist is = " + wordlist);
+		 document.forms["theform"].elements["filteredwords"].value = wordlist;
+
+
+	//new stuff here
+		  //what if I search thru the array first to see if it has a word starting with a letter
+
+
+
+	///  BUGS :  clear button needs to erase all fields and flags
+
+
+		//it's clealry too complex bypass the flag for the filter
+		// and simplify it to get the sucker working
+		//that's the plan.
+		//at least I have inner html working now.
+
+		////debugger;
+		/// I need to use a FLAG   yes of course
+		//flag on means a letter has been entered
+
+
+		//BUG is in here
+
+		var cheese="0"; //flag for letter of word match
+	for (var i=0; i<wordlist.length; i++){  //there was no var inside the loop - was that the bug.
+	//loop thru list
+
+	//display each item(word) first
+	//j = i +1; //doing this since the machine starts counting at 0;
+	//     if(flag_letter == true){
+	//////debugger;  //first attempt at this
+	  if(wordlist[i].charAt(0) == firstletter){ //meaning only show words from list starting with this first letter
+	       //alert("word " + (i+1) + " = " + wordlist[i]);
+	     cheese = "1"; //meaning words starting with this letter found
+	     console.log(cheese);
+	      document.forms["theform"].elements["seven"].value ="1";
+	       //build new subarray here
+	       //////debugger; //second attempt at looking at var values
+
+	       sublist.unshift(wordlist[i]); //puts it to the beginning of array sublist
+	  }//end letter if
+
+	}//end loop
+
+	//alert("it should have checked for a letter entered to filter search");
+	////debugger;
+
+
+
+	var s = wordlist.join(", ");
+	////debugger;
+	//alert(s); //display the damn wordlist please
+	possibly(v);  // <==== testing this
+	//my god it's always doing d by default of course. didn't know this
+	} //end of function??
+
+
+	////////////////////
+
+
+
+
+
+
+
+
+
+
+	//I still need to adjust the array output since I am still testing.
+
+
+
+	//populate new array from sorted array
+
+
+
+
+
+
+	/*
+	get the length of the array
+	and only display 10 elements at a time
+	later have it start from a first letter like "s"
+
+	formula time
+	what if I create a new subarray that I populate from the ten
+	based on the number (cursor) where I am
+	and then display that, that might be easier.
+
+	and if I go by a letter like d for example create a subarray from worted
+	words only starting with d and get the array length
+
+	so the commonalities are:  populate a new subarray from selected so
+	loop through bigarray with words starting with a certain letter
+	var starfish = [];
+	starfish.push(array.element);
+
+	//
+
+	so loop thru array with letters starting with a certain letter charAt()
+	go thru array element by element
+	so that's a loop
+
+	start by getting the array's length
+	*/
+
+		//alert(s); //this shows the sorted array
+
+		//now display sorted array by alphabetical letters
+		//actyually just show ten at a time with each click of mouse
+	//sort_list();
+
+
+	/*
+    document.forms["theform"].elements["five"].value = sublist.sort(); //puts in alphabetical order
+	document.forms["theform"].elements["three"].value = s;  //this is the full main array of words
+	*/
+
+	//does it ever get to this point?
+
+
+	//the key was putting the flag after
+
+	/*
+	if(cheese == "0"){
+	 document.forms["theform"].elements["five"].value ="no words in list start with that letter";
+	 document.forms["theform"].elements["seven"].value ="false";
+	}//end if
+	*/
+
+	////debugger;
+	//} //end function wordlist
+
+
+
+
+
+	// I need to create a new array list in
+	// alphabetical order
+	// so just sort it then
+
+
+	//I can do it by letter only showing words starting iwth a certian letter
+	//that I can enter into a field. cool
+	/*
+	function alsothis(){
+	trace("alsothis");
+	  document.forms["theform"].elements["two"].value   =" ";
+	  document.forms["theform"].elements["three"].value =" ";
+	  document.forms["theform"].elements["four"].value  =" ";
+	  document.forms["theform"].elements["five"].value  =" ";
+	  document.forms["theform"].elements["six"].value   =" ";
+      document.forms["theform"].elements["seven"].value =" ";
+      document.forms["theform"].elements["three"].value =" "; //call it again to see what happens
+      document.forms["theform"].elements["eight"].value = "  ";
+    }
+   */
+
+
+    //for trace function of list of functions in a sequence called
+
+    // I could have the functions being called populate an array
+    // then just show the array in a string
+
+
+
+
+
+
+
+
+
+
+
+
+    var   funclist = new Array();
+       //===
+
+
+       var functionscalledlist = new Array();
+
+
+
+      // ===========================   this was the bug
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    	function showfuncslist(tt){
+    	//alert("showfuncslist called");
+	    trace("showfuncslist");
+		   //I was able to manipulate and change innerHTML hooray
+	 var coolbaby2 =tt;
+     var resultString2 = "<table bgcolor=black height = 100 width = 200> <tr><td><p><font color=limegreen>new flag value</font><font color=red> " + coolbaby2 + " </font></td></tr></table> <br>";
+        resultString2 += "<table bgcolor=black height = 100 width = 200> <tr><td><p><font color=limegreen>new flag value</font><font color=red> " + coolbaby2 + " </font></td></tr></table> </p>";
+
+// print out to page
+     var blk = document.getElementById("result2");
+
+        // alert(blk);
+         //blk.innerHTML = resultString2;
+
+	  } //end function
+
+
+
+
+	//checkbox code
+	function myFunctioncheckbox() {
+	//alert("should have worked");
+       var x = document.getElementById("myCheck").checked;
+       alert(x);
+       //document.getElementById("demo").innerHTML = x;
+    }
+
+
+
+	</script>
+</head>
+
+
+<body onload="checkKey();dothis();">
+
+
+
+
+<br><br>
+bug 1 - function thelist() is not working when I click the button word list. July 05 2017<br>
+
+! but the miniDatabase has now started.<br>
+<table border=0><tr><Td><div class="showbox"><div class="circle_green"></div></div></td><td><font color=dodgerblue><b>Reverse Dictionary 2.0</font></b></td></tr></table>
+
+<table border="0"> <tr><td></td></tr>
+</table>
+Right now the database search stopped working - whoopsey, new bug<br>
+think of a word that means this word . test with hostile [return] then frustrated [return]<br>
+there is no iframe - I will fake it. I am using innerHTML only for simplicity.
+Debugging code is REALLY debugging the LOGIC !!!<br>
+First look at the logic (need to write it down and the flow)<br>
+Then look at what the code is Really doing and not what I think it's doing.<br><br>
+<br>
+
+<!--
+
+for testing type in hostile and tap return key
+then to clear the innerHTML then type in frustrated
+
+
+-->
+
+
+<!--
+// was return function name
+
+
+//testing sending a function call to top frame and will send variable paremeter next
+
+-->
+
+<!-- form starts here -->
+
+<form name = "theform" >
+<!--<textarea id="reply" name="reply" onKeyPress="enterpressalert(event, this)"></textarea>-->
+
+
+<input type = text   id="txt_name" name = "one" size = 35 onKeyPress="checkKey()">  <input type = "button"  id="button" value="s e a r c h"   onclick = "newone();">&nbsp;&nbsp;
+
+<br>
+<input type = text id="two" name = "two" size = 150><input type = "button"  id="button" value="clear" onclick = "testingpassingarray(input);zap();alsothis();"><!-- added trigger above window frame to send message but nothing yet -->
+<br><br>
+<input type = "button"  id="button" value="word list" onclick = "dothelist()"><input type = text id="three" name = "three" size = 150>
+<br><br> only show words starting with ...<input type = "button"  id="button" value="enter letter" onclick = "grabfirstletter();"><input type = text id="grabletterhere" name = "four" size = 1>&nbsp;Trace on or off.<input type = text id="traceswitch" name = "four" size = 3>
+<br><br>
+subarray of words starting with a certain letter<br>
+<input type = text id="filteredwords" name = "five" size = 150>
+<br>FLAG FIELD<br>
+<input type = text id="flagletter" name = "flagletter" size = 10>flag for if search by a letter<br>
+<input type = text id="seven" name = "seven" size = 10> flag for existence of word starting with letter<br><br>
+list of functions called below...
+<input type = text id="eight" name = "eight" size = 200>
+
+<br>
+
+ Trace On Functions
+    <!--
+    <input type="checkbox" name="skills" value="JavaScript" /> JavaScript
+    <input type="checkbox" name="skills" value="JQuery" /> JQuery
+   <input id="btnSubmit" type="submit" value="submit" /><div id="divResult"></div>
+    -->
+
+
+
+
+<!-- <div id="result">This is place holder testing innerHTML.</div>-->
+
+<form>
+<table border=0 bgcolor=white><tr><td><table border=0>
+<tr><td><iframe id="msg_iframe"  src="about:blank" width=420 height=80 scrolling=no frameborder="0"></iframe></td></tr>
+<tr><td><iframe id="test_iframe" src="about:blank" width=420 height=506 scrolling=yes frameborder="0"></iframe></td></tr>
+</table></td><td><table><tr><td><iframe id="trace_iframe"  src="about:blank" width=700 height=640 scrolling=yes frameborder="0"></iframe></td></tr>
+</table></td></tr><tr><td></td></tr></table>
+
+</form>
+<!-- from jsfiddle  see if this works -->
+
+
+<!--<div></div>-->
+
+
+
+
+
+<!--
+
+
+// iframe below
+</script>
+
+
+
+-->
+
+<script language="javascript">
+
+/*
+var div = document.getElementById("target");
+div.innerHTML = "<p><font color=orange>what</p><p>This is a second</p>";
+*/
+
+
+//July 1, 2017
+
+// THIS SHOULD WORK SO I CAN PUT THE VAR AND FLAG VALUES IN HERE
+// AND JUST USE ////debugger; for breakpoints and it will change on the fly
+// AND THEN ALL I HAVE TO DO IS MAKE A GLOBAL VARIABLE ACCESS THE
+//VARIABLEGS IN EACH FUNCTION AND ALSO GRAG THE FUNCTION NAME AND SEQUENCE
+// SO THIS MEANS NO MORE ANNOYING ALERT BOXES
+// AND NEXT TO EACH FUNCTION I WIL HAVE THE LOGIC AND HIGH LEVEL LANGUAGE
+// AND PSEUDOCODE TOO.
+
+//writing code to an iframe on jsfiddle cool
+//this is what I spent ALL of yesterday trying to f'n figure out.
+
+
+
+
+
+</script>
+
+
+
+
+<script language="javascript">
+function enterpressalert(e, textarea){
+  var code = (e.keyCode ? e.keyCode : e.which);
+   if(code == 13) { //Enter keycode
+    //alert("return key pushed in search field");
+//console.log("message time"); //see if this works
+
+////debugger;
+ //alert('enter press');
+}// end if
+} //end function
+
+/*
+html
+
+
+
+*/
+</script>
+
+
+
+
+</body>
+</html>
