@@ -8,6 +8,28 @@
   The beginning of Replay started back in 2017 in Florida.<br>
   I made a reverse dictionary and started on the debug view.<br>
   I integrated them together in a rush.<br><br>
+  To be clear the Repay Code Path is for pinpointing <b>LOGIC ERRORS</b><br>
+  and to ensure that functions are called and what they do with return values.<br>
+  All code is about creating running machine behavior which is designed in boolean logic.<br><br>
+  Each function can be described by what it's supposed to do and how it works in English.<br>
+  the design of a function is typically described procedurally in steps and then pseudocode.<br>
+  The complexity of functions can quickly get out of hand due to trying too much.<br>
+  <br>
+  <br>Logic errors(bugs) result in designed behavior running incorrectly.<br>
+  The point is to see what the code did (what path it took in the flow of control)<br>
+  which functions were called and when and what the inputs and outputs of all<br>
+  functions were.<br>
+  Logic errors are the most vexing to detect and isolate and with this tool<br>
+  it will be faster and easier to know(see) what the code logic did. <br><br>
+  My motto for debugging has always been: <br>
+  First look at the human logic (how a function or chunk of code is supposed to do)<br>
+  second look at the pseudocode logic design structure of a function<br>
+  third look at the code and see if the logic is represented correctly.<br>
+  fourth look at the results of the function to determine where the logic is in erro.<br>
+  fifth it's common for the actual design to be flawed because..<br>
+  there isn't currently a logic checker(for soundness) when designing a function<br>
+  but I will work on that next.<br><br>
+  
   But I lost interest because it didn't provide the valuable info<br>
   that I needed immediately accessible such as what the code was<br>
   supposed to do at each point and what should happen and what<br>
@@ -25,6 +47,7 @@ to improve it so that it provided more information. <br>
 Replay will also store the JS errors detected by the browser debugger<br>
 and show them with the line number and next to the function where<br>
 they were detected.<br><br>
+
 I was testing my debugging visual tool by adding it <br>
 to the reverse dictionary. <br>
 <br><br>
