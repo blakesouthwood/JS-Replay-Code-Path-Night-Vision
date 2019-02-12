@@ -25,7 +25,7 @@ to improve it so that it provided more information. <br>
 I was testing my debugging visual tool by adding it <br>
 to the reverse dictionary. <br>
 <br><br>
-the initial debugging aid showed thet trace growing function<br>
+The initial debugging aid showed thet trace growing function<br>
 list but it revealed where improvements could be made with<br>
 more information and the idea of understanding more about<br>
 what the code's flow of control route is *after* it runs <br>
@@ -39,8 +39,31 @@ to be a true debugging tool for humans.<br>
  along with assertions and the values at each point clickable<br>
  on the screen that the machine saw.<br>
 <br><br>
-
-
+I also learned that I need to have the literate programming view<br>
+and pseudocode for each function to compare with the source code<br>
+side by side so that I can see if the logic design meshes with<br>
+what the code is supposed to do.<br> True comments rarely do justice<br>
+to describe the inner workings (how a function or chunk works). <br>
+and most importantly what's missing is what the programmer was<br>
+thinking in terms of the desired behavior for a function and <br>
+precisely what it does and inside the function what it does in steps.<br>
+<br>
+Debugging logic is vexing because the machine executes the code logic<br>
+that a human wrote and it blindly obeys so making sure that the<br>
+boolean logic is correct representing human logic is also important<br>
+and most importantly that the human's translation from what the code<br>
+is supposed to do described in English (literate programming/ Intentional)<br>
+is translated in a programmer's mind into source code. Do to time constraints<br>
+pseudocode is rarely the midstep taken and just source code sprinkled<br>
+with a few comments is the output.<br><br>
+The other part that I wanted to add was tracking reused code frequency<br>
+percentage.<br> And I wanted to be able to track where "logic bugs" tend<br>
+to cluster.<br>
+The Replay program will be integrated as a js file in a program but the<br>
+programmer will have to add some methods to their code which should<br>
+not take more than a few minutes for a ten page program.<br>
+For larger programs Replay will have to work on node.js due to huge log<br>
+files.<br>
 
 I will start coding the Replay program this week.
 <br>
