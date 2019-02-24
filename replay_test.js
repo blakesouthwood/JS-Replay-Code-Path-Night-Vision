@@ -94,6 +94,7 @@ really need a middle language for describing code from the human viewpoint persp
 
 
 /*
+won't compile message (Dilbert woman won't compile ey message cartoon )
 Need to track reused code functions (and sections of code (orange) within functions) (obviously already debugged
 So this will save time. show percent of functions reused
 on new programs from previous programs. These need to be tagged gold.
@@ -102,7 +103,73 @@ reusing boolean logic to create machine behavior
 
 */
 
+//there will be several different modes to view (views) of the code
+// that are only possible for the human's persepctive - the machine
+// only sees the source code (actually only the compiler does). 
 
+//so now this has morphed again to design level in Strawberry
+// which will convert to psuedocode and this would then require
+// a way of describing what tryihng to do and then matchedf with
+// how it works  and then strawberry code using a knwoledgebase
+// and search engine.
+
+//intially this was just going to detect logic in code that was wrong
+// based on the course through the program that it took based on traces
+// and conditional decisions and then I just added detecting compile 
+// syntax errors and then I realized it would be useful as a design tool
+// and now it's clear that designing is a time sync and needs to be reused
+// and requires a way of designing a function faster based on the 
+// behavior that I am trying to create and as Brooks wrote the ONLY way
+// to build software faster is by reducing the time spent THINKING
+// and if it's possible think in terms of Alan Perlis
+// What I want is a programming language where I can say what I wish done
+// this way I can do designing and prevent design bugs through reuse
+// I realize now that just focusing on logic bugs was too narrow and
+// really debugging needs to be done at the design, building, and testing
+// phases so this is growing in complexity. 
+// at the same time as programs grow managing the complexity becomes
+// overwhelming and another bottleneck mentioned by Pixar 
+// was not being able to understand code is doing and how it works
+// Brooks mentioned the necessity of knowing the purpose of functions
+// A lecture on YouTube mentioned not only how, and what, but why something
+// was designed to do something (thus the thinking of the programmer)
+// will need to be embedded to follow the human logic behind doing something
+// alas I will start with the logic and syntax portions of this
+// and work on this in phases.
+
+
+/*
+[rather than how to do it] which is along the lines of Don Knuth at Stanford
+rather than tell the computer what to do instead tell another human
+what you want the computer to do [implied in English].
+this of course is a difficult problem because another human has intelligence
+and thinks in terms of running behavior and the machine only deals with
+cold boolean logic and, or, not, true, false, if
+
+*/
+
+
+// Strawberry code design language high level expressive view of code
+//based on human thinking a blend of literate and pseudocode
+// called Strawberry Fields for the human to read code logic expressively
+// though the machine doesn't get this perspective itself.
+//it's essentiall the path through the forest and is the light in teh darkness
+// to grasp what the code is going to do and it's expressed more Englishy
+// but most importantly along the lines of how humans actually think
+// as opposed to the straight cold boolean logic view that the machine sees
+
+
+//this is a trail on the cliff to know precisely what code logic
+// is with more expressive - John Backus said we need a pwerful new
+// methodology in how we think about a program.
+// Grace Hopper said - "the program exists at several levels
+// This would act as a guide to understanding what the code is supossed to
+// do and how it's initially designed to work
+
+
+//with 600 English words ( not code by a different perspective 
+// perceptional view that makes more sense than true source code
+// it's more human readable with implied meaning and is a design language
 /*
 
 trace through functions as they are called
