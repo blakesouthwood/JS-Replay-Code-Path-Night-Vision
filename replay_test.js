@@ -92,6 +92,17 @@ really need a middle language for describing code from the human viewpoint persp
 // by syntax errors which is level one debugging
 // that prevents code from running.
 
+
+/*
+Need to track reused code functions (and sections of code (orange) within functions) (obviously already debugged
+So this will save time. show percent of functions reused
+on new programs from previous programs. These need to be tagged gold.
+reusing boolean logic to create machine behavior 
+
+
+*/
+
+
 /*
 
 trace through functions as they are called
