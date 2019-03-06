@@ -1,3 +1,184 @@
+
+var input_array = []
+    input_array[input_array.length] = ""
+
+    varinput_array = []
+    varinput_array[varinput_array.length] = ""
+
+     varoutput_array = []
+    varoutput_array[varoutput_array.length] = ""
+
+     varnames_array = []
+    varnames_array[varnames_array.length] = ""
+
+var value_of_tron = false
+//############ main ##########
+
+
+function main(){
+  //alert("main called")
+	tron("main") //it must be called so this is every present just like at the top of each function
+  one();
+  two();
+  three();
+  four();
+  show_tron();
+} //end function
+
+
+
+main(); //calls everyting now
+
+
+
+//############ tron #######
+   function tron(add_this){ //the function called
+     var simple = add_this.toString()
+     //alert(simple)
+    /*fill the array in sequence based on function calls   */
+  var test = eval("input_array.push('" + simple + "')");
+    eval(test);
+  ////
+
+ /*fill the array in sequence based on function calls   */
+
+ }
+
+function outputs(arr){
+	var output = arr.toString()
+    var out_var = eval("varoutput_array.push('" + output + "')");
+    eval(out_var);
+     //var out_var2 = eval("varoutput_array.push('" + arr + "')");
+    //eval(out_var2);
+
+}
+
+//################# one #######
+ function one(){
+tron("one");
+
+outputs( "false")
+
+
+}
+
+
+//################ two #########
+function two(){
+tron("two");
+var condition = 'true';
+//if (condition == "true"){
+//	var color = "green"
+//}else{
+//	var color = "red"
+//}
+
+outputs( "true")
+
+}
+
+//############### three #########
+function three(){
+tron("three");
+
+
+outputs("false")
+
+}
+
+//############### three #########
+function four(){
+tron("four")
+
+outputs( "true")
+}
+
+
+
+
+
+//######################################
+//################ show_tron ###########
+function show_tron(){  //not calling this function 
+  return;
+//alert(input_array)
+var answer = "<!DOCTYPE html><html><body bgcolor=skyblue>";
+ answer += "<table border =1>";
+
+
+//loop
+for(var x =0;x<input_array.length;x++){
+  if(x == 0){ continue; }
+  //alert(input_array[x])
+  answer += "<tr><td>" + input_array[x]+ "</td></tr>";
+}//end loop
+answer += "</table>"
+ answer += "<br><table>"
+ answer += "<tr><td>" + "output vars from functions" +  "</td></tr>";
+
+//##########################
+
+ //loop
+ answer += "</table>"
+ answer += "<br><table bgcolor = gold border=1>"
+
+for(var x =0;x<varoutput_array.length;x++){
+  if(x == 0){ continue; }
+
+  answer += "<tr><td>" + varoutput_array[x]+ "</td></tr>";
+
+}//end loop
+
+//########################
+
+/*
+answer += "<table>"
+
+  answer += "</body></html>";
+
+
+  var tryit = "<html><body bgcolor=yellow>"
+      tryit += "wwords here "
+      tryit += "</body></html>"
+  document.getElementById("results").innerHTML = answer;
+*/
+
+  //document.getElementById("demo").innerHTML = answer;
+
+/*
+  //step 1: get the DOM object of the iframe. THIS IS IT
+  var iframe = document.getElementById('iframe');
+
+  var iframedoc = iframe.document;
+  if (iframe.contentDocument)
+    iframedoc = iframe.contentDocument;
+  else if (iframe.contentWindow)
+    iframedoc = iframe.contentWindow.document;
+
+  if (iframedoc) {
+    // Put the content in the iframe
+    iframedoc.open();
+    iframedoc.writeln(answer);
+    iframedoc.close();
+  } else {
+   //do nohting
+  }
+  */
+
+}//end funciton
+
+
+
+
+  function show_trace() {
+    var tryit = "<html><body bgcolor=yellow>"
+        tryit += "wwords here "
+        tryit += "</body></html>"
+    document.getElementById("results").innerHTML = tryit;
+  }
+
+
+
 //replay_test.js//
 // feb 24th, 2019
 //the important thing to remember is that this is a debugging tool
@@ -13,19 +194,19 @@ but I will need to describe that too for reference.
 
 The argument is looking at a web page with code that just ran
 with no clue what worked and what didn't and why the code stopped
-(if it stopped or bumped into a wayward return) It's key to 
+(if it stopped or bumped into a wayward return) It's key to
 see anywhere and everywhere what each function is fed and what it
 output values it creates.  So I need to describe what
 is expected to happen for each scenario when code runs.
 
-I will need to visually see the path with a blue trace along the 
+I will need to visually see the path with a blue trace along the
 map design of the program's internal system (by level and clickabe)
 and a red trace for something that is not supposed to happen
 so if there is a divergence from the planned route - described as predefined function trace path
 
 this should also be used for unit testing since that's a major part.
 
-Further this is (I can already tell) going to morph into a 
+Further this is (I can already tell) going to morph into a
 design building tool for the mechanics of how a program will work
 and what it does - which is necessary tool. So we have two modes now.
 So design with desired behaviors that can be searched to see if
@@ -57,7 +238,7 @@ really need a middle language for describing code from the human viewpoint persp
 
 
 //this is to detect boolean logic bugs and
-// behavior design 
+// behavior design
 
 //top down in order
 // put each function data into an array that is numbered
@@ -65,10 +246,10 @@ really need a middle language for describing code from the human viewpoint persp
 // grab data from each function inpouts, outputs, function name
 // which function called it, line number
 // what function does task - what it's supposed to do
-// how it worsk 
-// 
+// how it worsk
+//
 
-//this 
+//this
 //phase one of debugger
 // Dilbert "Won't compile cartoon"
 //will need to show line number obviously
@@ -80,14 +261,14 @@ really need a middle language for describing code from the human viewpoint persp
 
 //I need to track syntax errors, type errors
 // that show up in the console.
-// which means that I need to 
+// which means that I need to
 // do try catch and finally
-// to sense them and store them 
+// to sense them and store them
 // so that I can show them for each
 // function and for the hwole program
 // based on where I am in the program
 // because that way I am eliminating
-// them right off the bat if 
+// them right off the bat if
 // the code won't compile if it's tripped up
 // by syntax errors which is level one debugging
 // that prevents code from running.
@@ -98,14 +279,14 @@ won't compile message (Dilbert woman won't compile ey message cartoon )
 Need to track reused code functions (and sections of code (orange) within functions) (obviously already debugged
 So this will save time. show percent of functions reused
 on new programs from previous programs. These need to be tagged gold.
-reusing boolean logic to create machine behavior 
+reusing boolean logic to create machine behavior
 
 
 */
 
 //there will be several different modes to view (views) of the code
 // that are only possible for the human's persepctive - the machine
-// only sees the source code (actually only the compiler does). 
+// only sees the source code (actually only the compiler does).
 
 //so now this has morphed again to design level in Strawberry
 // which will convert to psuedocode and this would then require
@@ -115,10 +296,10 @@ reusing boolean logic to create machine behavior
 
 //intially this was just going to detect logic in code that was wrong
 // based on the course through the program that it took based on traces
-// and conditional decisions and then I just added detecting compile 
+// and conditional decisions and then I just added detecting compile
 // syntax errors and then I realized it would be useful as a design tool
 // and now it's clear that designing is a time sync and needs to be reused
-// and requires a way of designing a function faster based on the 
+// and requires a way of designing a function faster based on the
 // behavior that I am trying to create and as Brooks wrote the ONLY way
 // to build software faster is by reducing the time spent THINKING
 // and if it's possible think in terms of Alan Perlis
@@ -126,9 +307,9 @@ reusing boolean logic to create machine behavior
 // this way I can do designing and prevent design bugs through reuse
 // I realize now that just focusing on logic bugs was too narrow and
 // really debugging needs to be done at the design, building, and testing
-// phases so this is growing in complexity. 
+// phases so this is growing in complexity.
 // at the same time as programs grow managing the complexity becomes
-// overwhelming and another bottleneck mentioned by Pixar 
+// overwhelming and another bottleneck mentioned by Pixar
 // was not being able to understand code is doing and how it works
 // Brooks mentioned the necessity of knowing the purpose of functions
 // A lecture on YouTube mentioned not only how, and what, but why something
@@ -167,7 +348,7 @@ cold boolean logic and, or, not, true, false, if
 // do and how it's initially designed to work
 
 
-//with 600 English words ( not code by a different perspective 
+//with 600 English words ( not code by a different perspective
 // perceptional view that makes more sense than true source code
 // it's more human readable with implied meaning and is a design language
 /*
@@ -191,7 +372,7 @@ output vars and explanation what it does and how it works
 and pseudocode view toggleable and expressive Tahoe view too.
 so I compare the design logic with the logic embedded in the code
 so I will need to see the actual source code side by side with pseudocode
-and human logic view 
+and human logic view
 
 
 */
